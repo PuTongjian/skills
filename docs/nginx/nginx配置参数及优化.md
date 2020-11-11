@@ -57,6 +57,9 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for"';
  
     access_log  logs/access.log  main;
+    
+    # 隐藏Nginx版本号
+    server_tokens off;
  
     # 使用内核的FD文件传输功能，可以减少user mode和kernel mode的切换，从而提升服务器性能
     # 对于普通应用，必须设为 on,
