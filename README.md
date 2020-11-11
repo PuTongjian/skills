@@ -13,7 +13,7 @@
 ---
 
 # Nginx
-- [Nginx安装目录讲解](https://github.com/PuTongjian/skills/blob/master/docs/Nginx%E5%AE%89%E8%A3%85%E7%9B%AE%E5%BD%95%E8%AE%B2%E8%A7%A3.md)
+- [Nginx安装目录讲解](https://github.com/PuTongjian/skills/blob/master/docs/nginx/Nginx%E5%AE%89%E8%A3%85%E7%9B%AE%E5%BD%95%E8%AE%B2%E8%A7%A3.md)
 
 ---
 
