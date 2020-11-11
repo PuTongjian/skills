@@ -19,6 +19,9 @@ events {
     # epoll是多路复用IO(I/O Multiplexing)中的一种方式,
     # 仅用于linux2.6以上内核,可以大大提高nginx的性能
     use   epoll; 
+    
+    # 使每个worker进程可以同时处理多个客户端请求
+    multi_accept on
  
     #单个后台worker process进程的最大并发链接数    
     worker_connections  1024;
@@ -55,24 +58,62 @@ http {
  
     access_log  logs/access.log  main;
  
-    # sendfile 指令指定 nginx 是否调用 sendfile 函数（zero copy 方式）来输出文件，
+    # 使用内核的FD文件传输功能，可以减少user mode和kernel mode的切换，从而提升服务器性能
     # 对于普通应用，必须设为 on,
     # 如果用来进行下载等应用磁盘IO重负载应用，可设置为 off，
     # 以平衡磁盘与网络I/O处理速度，降低系统的uptime.
     sendfile     on;
-    #tcp_nopush     on;
+    
+    # 当tcp_nopush设置为on时，会调用tcp_cork方法进行数据传输，当应用程序产生数据时，内核不会立马封装包，而是当数据量积累到一定量时才会封装，然后传输。
+    tcp_nopush     on;
  
-    # 连接超时时间
-    keepalive_timeout  65;
+    # 当tcp_nodelay设置为on时，不缓存data-sends（关闭 Nagle 算法）,能够提高高频发送小数据报文的实时性。
     tcp_nodelay     on;
- 
-    # 开启gzip压缩
+    # 关于Nagle算法
+    # 比如要传输1个字节的数据，以IPv4为例，则每个包都要附带40字节的头，也就是说，总计41个字节的数据里，其中只有1个字节是我们需要的数据。为了解决这个问题，出现了Nagle算法。它规定：如果包的大小满足MSS，则可以立即发送，否则数据会被放到缓冲区，等到已经发送的包被确认了之后才能继续发送。通过这样的规定，可以降低网络里小包的数量，从而提升网络性能
+    
+    # 连接超时时间
+    keepalive_timeout  30;
+    
+    # 定义当客户端和服务端处于长连接的情况下，每个客户端的请求上限
+    keepalive_requests 5000
+        
+    # 客户端如果在该指定时间内没有加载完body数据，则断开连接，默认60s
+    client_body_timeout 10
+    
+    # 服务器向客户端发送数据包后，客户端在一定时间内没有接收数据，nginx将关闭该连接
+    send_timeout 3
+        
+    # 开启gzip压缩功能
     gzip  on;
+    
+    # 请求资源超过该值才进行压缩，单位：字节
+    gzip_min_length 1024;
+    
+    # 设置压缩使用的buffer大小，第一个参数为数量，第二个为每个buffer的大小
+    gzip_buffers 16 8k;
+    
+    # 设置压缩级别，范围1-9，9压缩级别最高，也最耗费CPU资源
+    gzip_comp_level 6;
+    
+    # 指定需要压缩的文件类型
+    gzip_types text/plain application/x-javascript text/css application/xml image/jpeg image/gif image/png;
+    
+    # IE1-6版本的浏览器不启用压缩
     gzip_disable "MSIE [1-6].";
  
-    # 设定请求缓冲
-    client_header_buffer_size    128k;
-    large_client_header_buffers  4 128k;
+    # 客户端header的buffer大小
+    client_header_buffer_size 4k;
+    
+    # 对于较大的header将使用该部分的buffer，两个参数，第一个为个数，第二个为每个buffe大小
+    large_client_header_buffers 4 8k;
+    
+    # 当客户端以POST方法提交数据到服务端时，会先写入到client_body_buffer中，当buffer写满会写到临时文件
+    client_body_buffer_size 128k
+    
+    # 客户端在发送数据较大的请求时，client_max_body_size将限制Content-Length所示值的大小。当数据大小超过该限制，Nginx在不接收完所有数据的情况下即可中断请求，并返回状态码413。参数设置为0，表示无限制，建议参数设置为10m
+    client_max_body_size 10m
+
  
  
     # 设定虚拟主机配置
@@ -100,11 +141,9 @@ http {
         location = /50x.html {
         }
  
-        # 静态文件，nginx自己处理
+        # 静态文件
         location ~ ^/(images|javascript|js|css|flash|media|static)/ {
-            
-            # 过期30天，静态文件不怎么更新，过期可以设大一点，
-            # 如果频繁更新，则可以设置得小一点。
+          	# 静态文件在浏览器缓存中的过期时间
             expires 30d;
         }
  
@@ -141,6 +180,33 @@ http {
         }
  
     }
+    
+    # HTTPS配置
+    server {
+        listen 443 ssl;
+        server_name  www.nginx.cn;
+        charset     utf-8;
+        ssl_certificate /etc/nginx/conf.d/www.nginx.cn.pem;
+        ssl_certificate_key /etc/nginx/conf.d/www.nginx.cn.key;
+        # 会话缓存
+        ssl_session_cache   shared:SSL:10m;
+       	# 会话超时时间
+        ssl_session_timeout 5m;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+		
+        # 该设置将只允许使用域名访问
+        if ($host != 'www.nginx.cn'){
+            return 404;
+        }
+
+        location / {
+        index index.html;
+        alias /www/;
+        autoindex on;
+        }
+}
     
     # 简单的负载均衡节点配置
     upstream DemoBackend {
