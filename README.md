@@ -1,14 +1,14 @@
 # SQL & NoSQL
 ## SQL
 ### MySQL
-- [MySQL性能优化](https://github.com/PuTongjian/python/blob/master/doc/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.md)
-- [主从配置](https://github.com/PuTongjian/python/blob/master/doc/MySQL%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.md)
-- [MySQL的四种事务隔离级别](https://github.com/PuTongjian/python/blob/master/doc/MySQL%E7%9A%84%E5%9B%9B%E7%A7%8D%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.md)
+- [MySQL性能优化](docs/mysql/MySQL性能优化.md)
+- [主从配置](docs/mysql/MySQL主从复制.md)
+- [MySQL的四种事务隔离级别](docs/mysql/MySQL的四种事务隔离级别.md)
 
 ## NoSQL
 ### Redis
 - [Redis 命令参考](http://doc.redisfans.com/)
-- [Redis指南](https://github.com/PuTongjian/python-stack/blob/master/doc/Redis%E6%8C%87%E5%8D%97.md)
+- [Redis指南](docs/redis/Redis指南.md)
 
 ---
 
