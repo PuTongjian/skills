@@ -22,9 +22,9 @@
 
   - 概述
 
-    | 用途                                                 | 语法                  | 配置位置   |
-    | ---------------------------------------------------- | --------------------- | ---------- |
-    | <font size=2>从目录中随机选取一个页面作为主页</font> | `random_index on|off` | `location` |
+    | 用途                                                 | 语法                   | 配置位置   |
+    | ---------------------------------------------------- | ---------------------- | ---------- |
+    | <font size=2>从目录中随机选取一个页面作为主页</font> | `random_index on\|off` | `location` |
 
   - 举例
 
@@ -45,7 +45,7 @@
 
     | 用途                             | 语法                                                         | 配置位置                 |
     | -------------------------------- | ------------------------------------------------------------ | ------------------------ |
-    | <font size=2>HTTP内容替换</font> | `sub_filter 'old_str' 'new_str' `<br>`sub_filter_last_modified on|off`<br>`sub_filter_once on|off` | `http, server, location` |
+    | <font size=2>HTTP内容替换</font> | `sub_filter 'old_str' 'new_str' `<br>`sub_filter_last_modified on\|off`<br>`sub_filter_once on\|off` | `http, server, location` |
 
   - 举例
 
@@ -90,7 +90,7 @@
 
     | 用途                             | 语法                                                         | 配置位置                                                   |
     | -------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------- |
-    | <font size=2>请求频率限制</font> | <font size=2>1. `limit_req_zone key zone=name:size;`<br/>2.`limit_req zone=name [burst=number] [nodelay | delay=number];`</font> | <font size=2>1.`http`<br>2.`http, server, location`</font> |
+    | <font size=2>请求频率限制</font> | <font size=2>1. `limit_req_zone key zone=name:size;`<br/>2.`limit_req zone=name [burst=number] [nodelay \| delay=number];`</font> | <font size=2>1.`http`<br>2.`http, server, location`</font> |
 
   - 举例
 
@@ -111,7 +111,7 @@
 
     | 用途                                 | 语法                                                         | 配置位置                               |
     | ------------------------------------ | ------------------------------------------------------------ | -------------------------------------- |
-    | <font size=2>基于IP的访问控制</font> | <font size=2>1. `allow address | CIDR | unix: | all`<br/>2.`deny address | CIDR | unix: | all`</font> | `http, server, location, limit_except` |
+    | <font size=2>基于IP的访问控制</font> | <font size=2>1. `allow address \| CIDR \| unix: \| all`<br/>2.`deny address \| CIDR \| unix: \| all`</font> | `http, server, location, limit_except` |
 
   - 举例
 
@@ -131,7 +131,7 @@
 
     | 用途                                   | 语法                                                         | 配置位置                               |
     | -------------------------------------- | ------------------------------------------------------------ | -------------------------------------- |
-    | <font size=2>基于用户的信任登陆</font> | <font size=2>1. `auth_basic string|off;`<br/>2.`auth_basic_user_file file;`</font> | `http, server, location, limit_except` |
+    | <font size=2>基于用户的信任登陆</font> | <font size=2>1. `auth_basic string\|off;`<br/>2.`auth_basic_user_file file;`</font> | `http, server, location, limit_except` |
 
   - 举例
 
