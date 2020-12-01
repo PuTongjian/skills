@@ -15,7 +15,8 @@
 # Nginx
 - [Nginx安装目录讲解](docs/nginx/Nginx安装目录讲解.md)
 - [Nginx官方模块](docs/nginx/Nginx官方模块.md)
-- [Nginx配置参数及优化](docs/nginx/nginx配置参数及优化.md)
+- [Nginx配置参数及优化](docs/nginx/Nginx配置参数及优化.md)
+- [Nginx作为静态资源web服务](docs/nginx/Nginx作为静态资源web服务.md)
 
 ---
 
