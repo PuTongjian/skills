@@ -157,7 +157,8 @@ http {
             fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
             include fastcgi_params;
         }
-       
+        
+        # 反向代理
         # 后端（Flask）接口请求转发
         location /api/ {
             
