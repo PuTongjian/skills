@@ -145,5 +145,9 @@
 
 ---
 
-更多模块的使用解析请参考[官方文档](http://nginx.org/en/docs/)。
+
+
+###参考链接
+
+- [Nginx官方文档](http://nginx.org/en/docs/)。
 

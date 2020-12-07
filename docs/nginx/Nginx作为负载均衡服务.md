@@ -55,4 +55,9 @@ server {
 
 ---
 
-获取更多配置详细,可参考[ngx_http_upstream_module官方文档](http://nginx.org/en/docs/http/ngx_http_upstream_module.html)
+
+
+### 参考链接
+
+- [ngx_http_upstream_module](http://nginx.org/en/docs/http/ngx_http_upstream_module.html)
+
