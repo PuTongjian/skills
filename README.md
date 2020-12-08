@@ -18,6 +18,7 @@
 - [Nginx配置参数及优化](docs/nginx/Nginx配置参数及优化.md)
 - [Nginx作为静态资源web服务](docs/nginx/Nginx作为静态资源web服务.md)
 - [Nginx作为负载均衡服务](docs/nginx/Nginx作为负载均衡服务.md)
+- [Nginx作为缓存服务](docs/nginx/Nginx作为缓存服务.md)
 
 ---
 
