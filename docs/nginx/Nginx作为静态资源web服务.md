@@ -73,3 +73,10 @@ http {
 }
 ```
 
+---
+
+
+
+参考链接
+
+- [Module ngx_http_secure_link_module](http://nginx.org/en/docs/http/ngx_http_secure_link_module.html)	用于检查请求链接的真实性，保护资源免受未经授权的访问并限制链接的生命周期
